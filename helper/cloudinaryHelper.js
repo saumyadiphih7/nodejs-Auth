@@ -1,7 +1,7 @@
 const cloudinary = require("../config/cloudinary.js")
 
 
-
+//helper functions to upload in cloudinary
 const uploadToCloudinary = async (filePath) => {
   try {
     const result = await cloudinary.uploader.upload(filePath)

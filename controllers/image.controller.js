@@ -4,11 +4,17 @@ const cloudinary = require("../config/cloudinary");
 const fs = require("fs");
 const asyncHandler = require("express-async-handler");
 
+
+//controller for image upload
 const uploadImageController = asyncHandler(async (req, res) => {
+
+  //gettng the image from the request
   if (!req.file) {
     return res.status(400).json({ message: "No file uploaded" });
   }
 
+
+  //uploading the image to cloudinary
   const { url, publicId } = await uploadToCloudinary(req.file.path);
 
   const image = new Image({
@@ -23,7 +29,10 @@ const uploadImageController = asyncHandler(async (req, res) => {
     throw new Error("Failed to save image to database");
   }
 
+  //delete image from the server
   fs.unlinkSync(req.file.path);
+
+
   return res.status(201).json({
     message: "Image uploaded successfully",
     image,
@@ -31,19 +40,33 @@ const uploadImageController = asyncHandler(async (req, res) => {
 });
 
 
+
+//controller for getting images
 const getImagesController = asyncHandler(async (req, res) => { 
 
+
+  //page no 
   const page = parseInt(req.query.page) || 1
+
+  //limit in each page
   const limit = parseInt(req.query.limit) || 2
   const skip = (page - 1) * limit
 
 
-  const sortBy=req.query.sortBy || 'createdAt'
+  //By which we are sorting
+  const sortBy = req.query.sortBy || 'createdAt'
+
+  // in which order we are sorting
   const sortOrder = req.query.sortOrder === "asc" ? 1 : -1
+
   const totalImages=await Image.countDocuments()
   const totalPage = Math.ceil(totalImages / limit)
   
+
+  //creating a sort object 
   const sortObj = {}
+
+  //sort object key will be sortBy and value will be sortOrder (key-value)
   sortObj[sortBy] = sortOrder
   
   const images = await Image.find().sort(sortObj).limit(limit).skip(skip);
@@ -60,7 +83,7 @@ const getImagesController = asyncHandler(async (req, res) => {
   })
 });
 
-
+//delete image controller
 const deleteImageController = asyncHandler(async (req, res) => {
   
    const { id } = req.params;

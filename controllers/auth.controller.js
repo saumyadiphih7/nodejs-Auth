@@ -3,6 +3,8 @@ const User = require("../models/user.model.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
+//creating user
 const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password ,role} = req.body;
 
@@ -61,7 +63,7 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid credentials")
   }
 
-
+//creating access token
   const accessToken = jwt.sign({
     id: user._id,
     username: user.username,
@@ -86,6 +88,7 @@ const loginUser = asyncHandler(async (req, res) => {
 });
 
 
+// change password
 const changePassword = asyncHandler(async (req, res) => {
   
   const id = req.user.id
@@ -97,6 +100,8 @@ const changePassword = asyncHandler(async (req, res) => {
      throw new Error("user not found")
   }
   
+
+  //getting old password and new password from request
   const { oldPassword, newPassword } = req.body
   
   const isPasswordMatch = await bcrypt.compare(oldPassword, user.password)
