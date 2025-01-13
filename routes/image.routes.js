@@ -4,9 +4,9 @@ const {
   getImagesController,
   deleteImageController,
 } = require("../controllers/image.controller");
-const authMiddleware = require('../middlewares/authMiddleware');
-const adminMiddleware = require('../middlewares/adminMiddleware');
-const upload = require('../middlewares/uploadMiddleware');
+const authMiddleware = require('../middlewares/authMiddleware.js');
+const adminMiddleware = require('../middlewares/adminMiddleware.js');
+const upload = require('../middlewares/uploadMiddleware.js');
 
 
 const router = express.Router();
