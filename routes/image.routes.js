@@ -5,7 +5,7 @@ const {
   deleteImageController,
 } = require("../controllers/image.controller");
 const authMiddleware = require('../middlewares/authMiddleware.js');
-const adminMiddleware = require('../middlewares/adminMiddleware.js');
+const adminMiddleware = require('../middlewares/adminmiddleware.js');
 const upload = require('../middlewares/uploadMiddleware.js');
 
 
